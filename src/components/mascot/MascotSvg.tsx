@@ -7,6 +7,7 @@ export type MascotPose =
   | 'reminder'
   | 'celebrate'
   | 'alert'
+  | 'adding'
   | 'icon';
 
 export interface MascotProps extends React.SVGProps<SVGSVGElement> {
@@ -164,6 +165,28 @@ export const MascotSvg: React.FC<MascotProps> = ({
           <polygon points="80,75 110,65 98,85" fill="#2A323D" stroke="#2A303A" strokeWidth="2" strokeLinejoin="round" />
           <circle cx="94" cy="74" r="3.5" fill="#E5B86B" />
           <circle cx="94" cy="74" r="1.5" fill="#101216" />
+        </g>
+      )}
+
+      {pose === 'adding' && (
+        <g id="kori-adding">
+          <polygon points="65,140 85,125 75,165" fill="#202630" stroke="#2A303A" strokeWidth="2" strokeLinejoin="round" />
+          <polygon points="80,70 125,95 85,135 60,110" fill="#1E232B" stroke="#2A303A" strokeWidth="2" strokeLinejoin="round" />
+          
+          <polygon points="75,75 140,85 110,110" fill="#2E3744" stroke="#2A303A" strokeWidth="2" strokeLinejoin="round" />
+          <polygon points="105,80 150,85 125,100" fill="#A5C96B" fillOpacity="0.9" stroke="#B9D987" strokeWidth="1.5" strokeLinejoin="round" />
+          
+          <polygon points="80,70 105,60 95,85" fill="#2A323D" stroke="#2A303A" strokeWidth="2" strokeLinejoin="round" />
+          <polygon points="105,60 120,65 100,72" fill="#A5C96B" stroke="#B9D987" strokeWidth="1.5" strokeLinejoin="round" />
+          <circle cx="92" cy="71" r="3" fill="#A5C96B" />
+          <circle cx="92" cy="71" r="1.5" fill="#101216" />
+
+          {/* Calendar checklist prop */}
+          <rect x="135" y="60" width="36" height="42" rx="4" fill="#191D24" stroke="#A5C96B" strokeWidth="1.5" />
+          <rect x="135" y="60" width="36" height="10" rx="4" fill="#A5C96B" fillOpacity="0.2" />
+          <line x1="141" y1="78" x2="165" y2="78" stroke="#7D8591" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="141" y1="86" x2="158" y2="86" stroke="#7D8591" strokeWidth="1.5" strokeLinecap="round" />
+          <path d="M141 93L144 96L150 90" stroke="#A5C96B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </g>
       )}
     </svg>

@@ -8,6 +8,7 @@ import { ProviderCombobox } from '@/components/subscriptions/ProviderCombobox';
 import { subscriptionSchema } from '@/lib/validation';
 import { ExternalLink, ShieldAlert, Sparkles } from 'lucide-react';
 import { verifiedProviders } from '@/lib/catalogue';
+import { MascotSvg } from '@/components/mascot/MascotSvg';
 
 interface SubscriptionModalProps {
   isOpen: boolean;
@@ -150,11 +151,18 @@ export const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogTitle>{isEditing ? 'Edit Subscription' : 'Add Subscription'}</DialogTitle>
-          <DialogDescription>
-            Search our verified catalogue or enter custom provider details.
-          </DialogDescription>
+        <DialogHeader className="flex flex-row items-center justify-between">
+          <div className="flex-1">
+            <DialogTitle>{isEditing ? 'Edit Subscription' : 'Add Subscription'}</DialogTitle>
+            <DialogDescription>
+              Search our verified catalogue or enter custom provider details.
+            </DialogDescription>
+          </div>
+          <MascotSvg
+            pose={isTrial ? 'alert' : isEditing ? 'welcome' : 'adding'}
+            size={48}
+            className="shrink-0 ml-2"
+          />
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">

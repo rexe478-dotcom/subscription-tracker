@@ -9,9 +9,10 @@ import { useAuth } from '@/context/AuthContext';
 
 interface SettingsPageProps {
   subscriptions: Subscription[];
+  onRestartOnboarding?: () => void;
 }
 
-export const SettingsPage: React.FC<SettingsPageProps> = ({ subscriptions }) => {
+export const SettingsPage: React.FC<SettingsPageProps> = ({ subscriptions, onRestartOnboarding }) => {
   const { user } = useAuth();
   const [defaultCurrency, setDefaultCurrency] = useState('USD');
   const [leadHours, setLeadHours] = useState('24');
@@ -87,6 +88,18 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({ subscriptions }) => 
           <p className="text-xs text-text-secondary max-w-md">
             Quiet, observant, and organized. Kori monitors your renewal cycles and alerts you before free trials expire or recurring payments process.
           </p>
+          {onRestartOnboarding && (
+            <div className="pt-2 flex justify-center sm:justify-start">
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={onRestartOnboarding}
+                className="text-xs py-1.5 h-auto"
+              >
+                Launch Kori Onboarding Tour
+              </Button>
+            </div>
+          )}
         </div>
       </div>
 

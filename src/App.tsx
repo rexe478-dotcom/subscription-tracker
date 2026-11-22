@@ -9,6 +9,7 @@ import { AnalyticsPage } from '@/pages/AnalyticsPage';
 import { SettingsPage } from '@/pages/SettingsPage';
 import { SubscriptionModal } from '@/components/subscriptions/SubscriptionModal';
 import { CancellationDisclosureModal } from '@/components/subscriptions/CancellationDisclosureModal';
+import { OnboardingModal } from '@/components/onboarding/OnboardingModal';
 import { Subscription, SubscriptionStatus } from '@/types';
 import { Loader2, LogOut } from 'lucide-react';
 
@@ -119,6 +120,9 @@ const MainApp: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [editingSub, setEditingSub] = useState<Subscription | null>(null);
   const [cancellationSub, setCancellationSub] = useState<Subscription | null>(null);
+  const [onboardingOpen, setOnboardingOpen] = useState<boolean>(() => {
+    return !localStorage.getItem('kori_onboarding_completed');
+  });
 
   if (loading) {
     return (
@@ -191,6 +195,7 @@ const MainApp: React.FC = () => {
       currentTab={currentTab}
       onTabChange={setCurrentTab}
       onAddSubscription={handleOpenAdd}
+      onOpenOnboarding={() => setOnboardingOpen(true)}
     >
       {/* User profile & Sign Out bar on top right */}
       <div className="flex items-center justify-end gap-3 mb-6 pb-2 border-b border-border/40 text-xs">
@@ -236,8 +241,17 @@ const MainApp: React.FC = () => {
       )}
 
       {currentTab === 'settings' && (
-        <SettingsPage subscriptions={subscriptions} />
+        <SettingsPage
+          subscriptions={subscriptions}
+          onRestartOnboarding={() => setOnboardingOpen(true)}
+        />
       )}
+
+      <OnboardingModal
+        open={onboardingOpen}
+        onClose={() => setOnboardingOpen(false)}
+        onAddFirstSubscription={(sub) => handleSaveSubscription(sub)}
+      />
 
       <SubscriptionModal
         isOpen={modalOpen}

@@ -23,6 +23,7 @@ interface AppShellProps {
   currentTab: NavigationTab;
   onTabChange: (tab: NavigationTab) => void;
   onAddSubscription?: () => void;
+  onOpenOnboarding?: () => void;
   children: React.ReactNode;
 }
 
@@ -38,6 +39,7 @@ export const AppShell: React.FC<AppShellProps> = ({
   currentTab,
   onTabChange,
   onAddSubscription,
+  onOpenOnboarding,
   children,
 }) => {
   return (
@@ -46,15 +48,22 @@ export const AppShell: React.FC<AppShellProps> = ({
       <aside className="hidden md:flex md:w-64 flex-col border-r border-border bg-surface shrink-0 p-4 justify-between">
         <div className="flex flex-col gap-6">
           {/* Brand & Mascot */}
-          <div className="flex items-center gap-3 px-2">
+          <button
+            type="button"
+            onClick={onOpenOnboarding}
+            className="flex items-center gap-3 px-2 text-left hover:opacity-85 transition-opacity focus:outline-none focus:ring-1 focus:ring-accent rounded-lg p-1"
+            title="Launch Kori Onboarding Tour"
+          >
             <MascotSvg pose="icon" size={32} />
             <div>
               <h1 className="text-sm font-semibold tracking-tight text-text-primary leading-tight">
                 Subscription Tracker
               </h1>
-              <p className="text-[11px] text-text-muted">Personal & Private</p>
+              <p className="text-[11px] text-accent flex items-center gap-1 font-medium">
+                <span>Meet Kori</span> • <span>Guide</span>
+              </p>
             </div>
-          </div>
+          </button>
 
           {/* Quick Add CTA */}
           <Button
@@ -66,6 +75,26 @@ export const AppShell: React.FC<AppShellProps> = ({
           >
             Add Subscription
           </Button>
+
+          {onOpenOnboarding && (
+            <button
+              type="button"
+              onClick={onOpenOnboarding}
+              className="flex items-center gap-2.5 px-3 py-2 text-xs bg-surface-raised border border-border/80 hover:border-accent/40 rounded-lg transition-all group text-left"
+            >
+              <MascotSvg
+                pose="welcome"
+                size={28}
+                className="shrink-0 transition-transform group-hover:scale-110"
+              />
+              <div>
+                <div className="font-semibold text-text-primary text-[11px] leading-tight flex items-center gap-1">
+                  <span>Tour with Kori</span>
+                </div>
+                <div className="text-[10px] text-text-muted">Interactive guide & tips</div>
+              </div>
+            </button>
+          )}
 
           {/* Nav Links */}
           <nav className="flex flex-col gap-1" aria-label="Desktop Navigation">
@@ -110,12 +139,20 @@ export const AppShell: React.FC<AppShellProps> = ({
 
         {/* Mobile Header */}
         <header className="md:hidden flex items-center justify-between px-4 py-3 border-b border-border bg-surface sticky top-0 z-40">
-          <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={onOpenOnboarding}
+            className="flex items-center gap-2.5 text-left focus:outline-none focus:ring-1 focus:ring-accent rounded p-1"
+            title="Open Kori Onboarding Guide"
+          >
             <MascotSvg pose="icon" size={28} />
-            <h1 className="text-sm font-semibold tracking-tight text-text-primary">
-              Subscription Tracker
-            </h1>
-          </div>
+            <div>
+              <h1 className="text-sm font-semibold tracking-tight text-text-primary leading-tight">
+                Subscription Tracker
+              </h1>
+              <span className="text-[10px] text-accent font-medium leading-none">Meet Kori</span>
+            </div>
+          </button>
           <Button
             variant="primary"
             size="sm"

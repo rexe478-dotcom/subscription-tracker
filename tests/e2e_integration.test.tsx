@@ -1,8 +1,38 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import App from '@/App';
 
 describe('End-to-End User Journeys & Hard Constraint Auditing', () => {
+  beforeEach(() => {
+    localStorage.setItem('kori_onboarding_completed', 'true');
+  });
+
+  it('launches Kori onboarding tour and introduces the swift familiar', async () => {
+    localStorage.removeItem('kori_onboarding_completed');
+    render(<App />);
+
+    expect(screen.getByText('Welcome to Subscription Tracker')).toBeInTheDocument();
+    expect(screen.getAllByLabelText(/Mascot Kori in welcome pose/i)[0]).toBeInTheDocument();
+    expect(screen.getByText(/I am Kori, your personal swift familiar/i)).toBeInTheDocument();
+
+    // Advance to step 2
+    fireEvent.click(screen.getByRole('button', { name: /continue/i }));
+    expect(screen.getByText(/Add your first subscription/i)).toBeInTheDocument();
+
+    // Advance to step 3
+    fireEvent.click(screen.getByRole('button', { name: /continue/i }));
+    expect(screen.getByText(/Never miss a renewal or trial end/i)).toBeInTheDocument();
+
+    // Advance to step 4
+    fireEvent.click(screen.getByRole('button', { name: /continue/i }));
+    expect(screen.getByText(/You are all set!/i)).toBeInTheDocument();
+
+    // Complete onboarding
+    fireEvent.click(screen.getByRole('button', { name: /get started/i }));
+    await waitFor(() => {
+      expect(localStorage.getItem('kori_onboarding_completed')).toBe('true');
+    });
+  });
   it('completes the full flow: authenticate -> view dashboard -> add subscription -> verify currency grouping', async () => {
     render(<App />);
 

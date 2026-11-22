@@ -60,8 +60,13 @@ export const AuthPage: React.FC = () => {
       <div className="w-full max-w-md bg-surface border border-border rounded-xl p-6 sm:p-8 flex flex-col gap-6 shadow-2xl">
         {/* Mascot & Header */}
         <div className="flex flex-col items-center text-center gap-2">
-          <MascotSvg pose="welcome" size={88} className="mb-1" />
-          <h1 className="text-xl font-bold tracking-tight text-text-primary">
+          <div className="relative group flex flex-col items-center">
+            <MascotSvg pose="welcome" size={88} className="mb-1 transition-transform group-hover:scale-105" />
+            <span className="text-[10px] uppercase font-semibold tracking-wider text-accent bg-surface-raised px-2.5 py-0.5 rounded-full border border-border">
+              Meet Kori • The Swift Familiar
+            </span>
+          </div>
+          <h1 className="text-xl font-bold tracking-tight text-text-primary mt-1">
             Subscription Tracker
           </h1>
           <p className="text-xs text-text-secondary max-w-xs">

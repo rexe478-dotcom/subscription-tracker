@@ -39,6 +39,21 @@ export function getNotificationPermission(): NotificationPermission {
 }
 
 /**
+ * Explicitly requests notification permission from the user
+ */
+export async function requestNotificationPermission(): Promise<boolean> {
+  if (typeof window === 'undefined' || !('Notification' in window)) {
+    return false;
+  }
+  try {
+    const perm = await Notification.requestPermission();
+    return perm === 'granted';
+  } catch {
+    return false;
+  }
+}
+
+/**
  * Requests push permission and registers a Web Push subscription
  */
 export async function subscribeToPush(

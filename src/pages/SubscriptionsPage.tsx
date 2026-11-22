@@ -4,7 +4,8 @@ import { formatCurrency } from '@/lib/currency';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Search, Plus, ExternalLink } from 'lucide-react';
+import { Search, Plus, ExternalLink, RotateCcw } from 'lucide-react';
+import { MascotSvg } from '@/components/mascot/MascotSvg';
 
 interface SubscriptionsPageProps {
   subscriptions: Subscription[];
@@ -90,8 +91,38 @@ export const SubscriptionsPage: React.FC<SubscriptionsPageProps> = ({
 
       {/* Subscription List */}
       {filteredSubscriptions.length === 0 ? (
-        <div className="border border-border rounded-lg bg-surface p-12 text-center text-text-secondary">
-          <p className="text-sm">No subscriptions match your search filter.</p>
+        <div className="border border-border rounded-lg bg-surface p-8 sm:p-12 text-center flex flex-col items-center justify-center">
+          <MascotSvg
+            pose={subscriptions.length === 0 ? 'empty' : 'alert'}
+            size={120}
+            className="mb-4"
+          />
+          <h3 className="text-base font-semibold text-text-primary">
+            {subscriptions.length === 0
+              ? 'No subscriptions tracked yet'
+              : `No matching subscriptions for "${searchQuery}"`}
+          </h3>
+          <p className="text-xs sm:text-sm text-text-secondary max-w-sm mt-1 mb-6">
+            {subscriptions.length === 0
+              ? 'Add your active subscriptions or trial services to track upcoming renewals.'
+              : 'Try searching with another keyword or reset the status filter to see all services.'}
+          </p>
+          {subscriptions.length === 0 ? (
+            <Button variant="primary" onClick={onAddSubscription} leftIcon={<Plus className="w-4 h-4" />}>
+              Add Your First Subscription
+            </Button>
+          ) : (
+            <Button
+              variant="secondary"
+              onClick={() => {
+                setSearchQuery('');
+                setStatusFilter('all');
+              }}
+              leftIcon={<RotateCcw className="w-3.5 h-3.5" />}
+            >
+              Reset Filters
+            </Button>
+          )}
         </div>
       ) : (
         <div className="border border-border rounded-lg bg-surface divide-y divide-border overflow-hidden">
