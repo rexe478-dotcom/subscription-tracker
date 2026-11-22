@@ -1,15 +1,22 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://mock-project.supabase.co';
+const defaultUrl = 'https://rjqpelaqczkutwtstsho.supabase.co';
+const defaultAnonKey = 'sb_publishable_LTaql5iUvPQrXW0n0n6gJA_9jKCee__';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || defaultUrl;
 const supabaseAnonKey =
   import.meta.env.VITE_SUPABASE_ANON_KEY ||
   import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-  'mock-anon-key';
+  defaultAnonKey;
 
-export const isSupabaseConfigured = Boolean(
-  import.meta.env.VITE_SUPABASE_URL &&
-    (import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY)
-);
+export const isSupabaseConfigured =
+  import.meta.env.MODE !== 'test' &&
+  Boolean(
+    (import.meta.env.VITE_SUPABASE_URL || defaultUrl) &&
+      (import.meta.env.VITE_SUPABASE_ANON_KEY ||
+        import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+        defaultAnonKey)
+  );
 
 /**
  * Public Supabase client instance.
